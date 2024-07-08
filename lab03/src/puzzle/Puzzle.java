@@ -65,7 +65,7 @@ public class Puzzle {
                 Hint: Use an exception breakpoint.""");
         while (r.nextInt(100) != 10) {
             guessThis += r.nextInt();
-            s = LOTS_OF_STRINGS[r.nextInt(LOTS_OF_STRINGS.length + 1)];
+            s = LOTS_OF_STRINGS[r.nextInt(LOTS_OF_STRINGS.length - 1)];
         }
     }
 
