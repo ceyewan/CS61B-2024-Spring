@@ -1,0 +1,9 @@
+This program inserts random Strings of length L into different types of maps as <String, Integer> pairs.
+Please enter desired length of each string: 10
+
+Enter # strings to insert into the maps: 50000
+class ULLMap: 7.61 sec
+class BSTMap: 0.02 sec
+Java's Built-in TreeMap: 0.03 sec
+Java's Built-in HashMap: 0.01 sec
+Would you like to try more timed-tests? (y/n)n
