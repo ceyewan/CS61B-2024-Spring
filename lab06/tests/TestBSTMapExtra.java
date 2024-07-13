@@ -1,3 +1,4 @@
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -5,8 +6,34 @@ import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 
-/** Tests of optional parts of lab 7. */
+/**
+ * Tests of optional parts of lab 7.
+ */
 public class TestBSTMapExtra {
+
+    /* Iterator Test */
+    @Test
+    public void testTreeMapIterator() {
+        BSTMap<Integer, String> BSTMap = new BSTMap<>();
+        BSTMap.put(5, "five");
+        BSTMap.put(3, "three");
+        BSTMap.put(7, "seven");
+        BSTMap.put(1, "one");
+        BSTMap.put(4, "four");
+
+        Iterator<Integer> iterator = BSTMap.iterator();
+        assertThat(iterator.hasNext()).isTrue();
+        assertThat(iterator.next()).isEqualTo(1);
+        assertThat(iterator.hasNext()).isTrue();
+        assertThat(iterator.next()).isEqualTo(3);
+        assertThat(iterator.hasNext()).isTrue();
+        assertThat(iterator.next()).isEqualTo(4);
+        assertThat(iterator.hasNext()).isTrue();
+        assertThat(iterator.next()).isEqualTo(5);
+        assertThat(iterator.hasNext()).isTrue();
+        assertThat(iterator.next()).isEqualTo(7);
+        assertThat(iterator.hasNext()).isFalse();
+    }
 
     /*
      * Sanity test for keySet, only here because it's optional
@@ -60,12 +87,12 @@ public class TestBSTMapExtra {
      */
     @Test
     public void testRemoveThreeCases() {
-        BSTMap<String,String> q = new BSTMap<>();
-        q.put("c","a");
-        q.put("b","a");
-        q.put("a","a");
-        q.put("d","a");
-        q.put("e","a");                         // a b c d e
+        BSTMap<String, String> q = new BSTMap<>();
+        q.put("c", "a");
+        q.put("b", "a");
+        q.put("a", "a");
+        q.put("d", "a");
+        q.put("e", "a");                         // a b c d e
         assertThat(q.remove("e")).isNotNull();      // a b c d
         assertThat(q.containsKey("a")).isTrue();
         assertThat(q.containsKey("b")).isTrue();
@@ -75,7 +102,7 @@ public class TestBSTMapExtra {
         assertThat(q.containsKey("a")).isTrue();
         assertThat(q.containsKey("b")).isTrue();
         assertThat(q.containsKey("d")).isTrue();
-        q.put("f","a");                         // a b d f
+        q.put("f", "a");                         // a b d f
         assertThat(q.remove("d")).isNotNull();      // a b f
         assertThat(q.containsKey("a")).isTrue();
         assertThat(q.containsKey("b")).isTrue();
