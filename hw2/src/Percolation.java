@@ -2,37 +2,61 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 
 public class Percolation {
-    // TODO: Add any necessary instance variables.
+    private final int[][] grid;
+    int[][] d = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    private final int size;
+    private int openSize;
+    private final WeightedQuickUnionUF unionSet;
 
     public Percolation(int N) {
-        // TODO: Fill in this constructor.
+        grid = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                grid[i][j] = -1;
+            }
+        }
+        unionSet = new WeightedQuickUnionUF(N * N);
+        size = N;
+        openSize = 0;
     }
 
     public void open(int row, int col) {
-        // TODO: Fill in this method.
+        if (grid[row][col] == -1) {
+            grid[row][col] = 0;
+            boolean full = (row == 0);
+            for (int i = 0; i < 4; i++) {
+                int r = row + d[i][0], c = col + d[i][1];
+                if (0 <= r && r < size && 0 <= c && c < size && isOpen(r, c)) {
+                    int tmp = unionSet.find(r * size + c);
+                    full = full || (grid[tmp / size][tmp % size] == 1);
+                    unionSet.union(r * size + c, row * size + col);
+                }
+            }
+            int tmp = unionSet.find(row * size + col);
+            grid[tmp / size][tmp % size] = (full ? 1 : 0);
+            openSize++;
+        }
     }
 
     public boolean isOpen(int row, int col) {
-        // TODO: Fill in this method.
-        return false;
+        return grid[row][col] != -1;
     }
 
     public boolean isFull(int row, int col) {
-        // TODO: Fill in this method.
-        return false;
+        int tmp = unionSet.find(row * size + col);
+        return grid[tmp / size][tmp % size] == 1;
     }
 
     public int numberOfOpenSites() {
-        // TODO: Fill in this method.
-        return 0;
+        return openSize;
     }
 
     public boolean percolates() {
-        // TODO: Fill in this method.
+        for (int i = 0; i < size; i++) {
+            if (isFull(size - 1, i)) {
+                return true;
+            }
+        }
         return false;
     }
-
-    // TODO: Add any useful helper methods (we highly recommend this!).
-    // TODO: Remove all TODO comments before submitting.
-
 }
