@@ -1,5 +1,8 @@
 package ngrams;
 
+import org.apache.hc.core5.annotation.Internal;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -30,15 +33,18 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      */
     public TimeSeries(TimeSeries ts, int startYear, int endYear) {
         super();
-        // TODO: Fill in this constructor.
+        ts.forEach((key, value) -> {
+            if (startYear <= key && key <= endYear) {
+                this.put(key, value);
+            }
+        });
     }
 
     /**
      * Returns all years for this TimeSeries (in any order).
      */
     public List<Integer> years() {
-        // TODO: Fill in this method.
-        return null;
+        return new ArrayList<>(this.keySet());
     }
 
     /**
@@ -46,8 +52,7 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      * Must be in the same order as years().
      */
     public List<Double> data() {
-        // TODO: Fill in this method.
-        return null;
+        return new ArrayList<>(this.values());
     }
 
     /**
@@ -60,8 +65,15 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      * should store the value from the TimeSeries that contains that year.
      */
     public TimeSeries plus(TimeSeries ts) {
-        // TODO: Fill in this method.
-        return null;
+        TimeSeries result = new TimeSeries(ts, MIN_YEAR, MAX_YEAR);
+        for (Integer key : this.keySet()) {
+            if (result.containsKey(key)) {
+                result.put(key, result.get(key) + this.get(key));
+            } else {
+                result.put(key, this.get(key));
+            }
+        }
+        return result;
     }
 
     /**
@@ -74,10 +86,15 @@ public class TimeSeries extends TreeMap<Integer, Double> {
      * If TS has a year that is not in this TimeSeries, ignore it.
      */
     public TimeSeries dividedBy(TimeSeries ts) {
-        // TODO: Fill in this method.
-        return null;
+        TimeSeries result = new TimeSeries(this, MIN_YEAR, MAX_YEAR);
+        for (Integer key : result.keySet()) {
+            if (ts.containsKey(key)) {
+                result.put(key, result.get(key) / ts.get(key));
+            } else {
+                throw new IllegalArgumentException();
+            }
+        }
+        return result;
     }
 
-    // TODO: Add any private helper methods.
-    // TODO: Remove all TODO comments before submitting.
 }
